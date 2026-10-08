@@ -1,16 +1,19 @@
 package com.communityLibrary.API.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
-public class livro {
+@Table(name = "tb_categorias")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String titulo;
-    private String ISBN;
-    private int anoDePublicacao;
-    private int quantidadeDisponivel;
+    private String nome;
 }
