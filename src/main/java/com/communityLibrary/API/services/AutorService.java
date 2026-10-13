@@ -21,11 +21,11 @@ public class AutorService {
         return autorRepository.save(autor);
     }
 
-    public Autor getById(Long id) {
+    public Autor buscarAutor(Long id) {
         return autorRepository.findById(id).orElse(null);
     }
 
-    public void delete(Long id) {
+    public void deletarAutor(Long id) {
         autorRepository.deleteById(id);
     }
 }

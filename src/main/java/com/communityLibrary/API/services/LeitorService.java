@@ -13,7 +13,7 @@ public class LeitorService {
     @Autowired
     private LeitorRepository LeitorRepository;
 
-    public List<Leitor> buscarCategorias() {
+    public List<Leitor> buscarLeitores() {
         return LeitorRepository.findAll();
     }
 
@@ -24,6 +24,7 @@ public class LeitorService {
     public Leitor salvarLeitor(Leitor leitor) {
         return LeitorRepository.save(leitor);
     }
+
     public void deletarLeitor(Long id) {
         LeitorRepository.deleteById(id);
     }

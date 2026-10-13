@@ -1,7 +1,6 @@
 package com.communityLibrary.API.services;
 
 import com.communityLibrary.API.entity.Categoria;
-import com.communityLibrary.API.entity.Leitor;
 import com.communityLibrary.API.repositories.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
