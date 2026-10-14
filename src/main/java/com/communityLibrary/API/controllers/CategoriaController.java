@@ -1,8 +1,13 @@
 package com.communityLibrary.API.controllers;
 
+import com.communityLibrary.API.dtos.CategoriaRequestDTO;
+import com.communityLibrary.API.dtos.CategoriaResponseDTO;
 import com.communityLibrary.API.entity.Categoria;
 import com.communityLibrary.API.services.CategoriaService;
+import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,19 +20,23 @@ public class CategoriaController {
     private CategoriaService categoriaService;
 
     @GetMapping
-    public List<Categoria> listarCategorias() {
-        return categoriaService.ListarCategorias();
+    public ResponseEntity<List<CategoriaResponseDTO>> listarCategorias() {
+        List<CategoriaResponseDTO> categorias = categoriaService.listarCategorias();
+        return ResponseEntity.ok(categorias);
     }
     @GetMapping("/{id}")
-    public Categoria buscarCategoria(@PathVariable Long id) {
-        return categoriaService.buscarCategoria(id);
+    public ResponseEntity<CategoriaResponseDTO> buscarCategoria(@PathVariable Long id) {
+        CategoriaResponseDTO categoria = categoriaService.buscarCategoria(id);
+        return ResponseEntity.ok(categoria);
     }
     @PostMapping
-    public Categoria salvarCategoria(@RequestBody Categoria categoria) {
-        return categoriaService.salvarCategoria(categoria);
+    public ResponseEntity<CategoriaResponseDTO> salvarCategoria(@Valid @RequestBody CategoriaRequestDTO dadosCategoria) {
+        CategoriaResponseDTO categoriaSalva = categoriaService.salvarCategoria(dadosCategoria);
+        return ResponseEntity.ok(categoriaSalva);
     }
     @DeleteMapping("/{id}")
-    public void deletarCategoria(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarCategoria(@PathVariable Long id) {
         categoriaService.deletarCategoria(id);
+        return ResponseEntity.noContent().build();
     }
 }
