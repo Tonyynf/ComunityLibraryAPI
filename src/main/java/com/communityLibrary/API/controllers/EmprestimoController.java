@@ -21,4 +21,9 @@ public class EmprestimoController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(emprestimoSalvo);
     }
+    @PutMapping("/{id}/devolucao")
+    public ResponseEntity<EmprestimoResponseDTO> registrarDevolucao(@PathVariable Long id) {
+        EmprestimoResponseDTO response = emprestimoService.registrarDevolucao(id);
+        return ResponseEntity.ok(response);
+    }
 }
