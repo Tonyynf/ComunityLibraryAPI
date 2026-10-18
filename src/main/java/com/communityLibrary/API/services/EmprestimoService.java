@@ -41,10 +41,8 @@ public class EmprestimoService {
         emprestimo.setDataPrevistaDevolucao((LocalDate.now().plusDays(14))); // Exemplo: 14 dias de prazo)
         emprestimo.setStatus(StatusEmprestimo.ATIVO);
 
-        // 5. Salva no banco de dados
         Emprestimo emprestimoSalvo = emprestimoRepository.save(emprestimo);
 
-        // 6. Retorna o DTO de Resposta formatado
         return new EmprestimoResponseDTO(
                 emprestimoSalvo.getId(),
                 leitor.getNome(),
@@ -55,4 +53,26 @@ public class EmprestimoService {
         );
     }
 
+    public EmprestimoResponseDTO registrarDevolucao(Long id) {
+        Emprestimo emprestimo = emprestimoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Empréstimo não encontrado com o ID: " + id));
+
+        if (emprestimo.getStatus() == StatusEmprestimo.DEVOLVIDO) {
+            throw new RuntimeException("Este empréstimo já foi finalizado/devolvido.");
+        }
+
+        emprestimo.setDataDevolucao(LocalDate.now());
+        emprestimo.setStatus(StatusEmprestimo.DEVOLVIDO);
+
+        Emprestimo emprestimoAtualizado = emprestimoRepository.save(emprestimo);
+
+        return new EmprestimoResponseDTO(
+                emprestimoAtualizado.getId(),
+                emprestimoAtualizado.getLeitor().getNome(),
+                emprestimoAtualizado.getLivro().getTitulo(),
+                emprestimoAtualizado.getDataEmprestimo(),
+                emprestimoAtualizado.getDataPrevistaDevolucao(),
+                emprestimoAtualizado.getStatus()
+        );
+    }
 }
