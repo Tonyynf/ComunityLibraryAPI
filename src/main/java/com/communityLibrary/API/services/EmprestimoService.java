@@ -28,6 +28,11 @@ public class EmprestimoService {
     private LivroRepository livroRepository;
 
     public EmprestimoResponseDTO realizarEmprestimo(EmprestimoRequestDTO dados) {
+        boolean livroJaEmprestado = emprestimoRepository.existsByLivroIdAndStatus(dados.idLivro(), StatusEmprestimo.ATIVO);
+        if (livroJaEmprestado) {
+            throw new RuntimeException("Este livro já se encontra emprestado no momento!");
+        }
+
         Leitor leitor = leitorRepository.findById(dados.idLeitor())
                 .orElseThrow(() -> new RuntimeException("Leitor não encontrado"));
 
@@ -74,5 +79,18 @@ public class EmprestimoService {
                 emprestimoAtualizado.getDataPrevistaDevolucao(),
                 emprestimoAtualizado.getStatus()
         );
+    }
+
+    public List<EmprestimoResponseDTO> listarEmprestimos() {
+        List<Emprestimo> emprestimos = emprestimoRepository.findAll();
+
+        return emprestimos.stream().map(emprestimo -> new EmprestimoResponseDTO(
+                emprestimo.getId(),
+                emprestimo.getLeitor().getNome(),
+                emprestimo.getLivro().getTitulo(),
+                emprestimo.getDataEmprestimo(),
+                emprestimo.getDataPrevistaDevolucao(),
+                emprestimo.getStatus()
+        )).toList();
     }
 }
