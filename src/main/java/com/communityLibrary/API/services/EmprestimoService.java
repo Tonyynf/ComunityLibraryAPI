@@ -93,4 +93,10 @@ public class EmprestimoService {
                 emprestimo.getStatus()
         )).toList();
     }
+    public void excluirEmprestimo(Long id) {
+        if (emprestimoRepository.existsById(id)) {
+            throw new RuntimeException("Emprestimo não foi encontrado!");
+        }
+        emprestimoRepository.deleteById(id);
+    }
 }

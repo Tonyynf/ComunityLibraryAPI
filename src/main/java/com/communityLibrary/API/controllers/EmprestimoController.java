@@ -35,4 +35,10 @@ public class EmprestimoController {
         EmprestimoResponseDTO response = emprestimoService.registrarDevolucao(id);
         return ResponseEntity.ok(response);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluirEmprestimo(@PathVariable Long id) {
+        emprestimoService.excluirEmprestimo(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
